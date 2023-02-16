@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-void main() {
-  runApp(
-    MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: DefaultSvgTheme(
-            theme: const SvgTheme(currentColor: Colors.green),
-            child: SvgPicture.network(
-              'https://www.svgrepo.com/show/111233/network.svg',
-            ),
-          ),
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Material(
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () async => throw Exception('TEST EXCEPTION'),
+          child: const SizedBox.square(dimension: 30),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
