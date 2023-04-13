@@ -1,32 +1,35 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final BeamerDelegate _routerDelegate;
+  final _router = GoRouter(
+    routes: [
+      GoRoute(
+        path: '/',
+        builder: (context, state) =>
+            const MyHomePage(title: 'Flutter Demo Home Page'),
+        routes: [
+          GoRoute(
+            path: 'second',
+            builder: (context, state) => const _SecondScreen(),
+          ),
+        ],
+      ),
+    ],
+  );
 
-  MyApp({super.key})
-      : _routerDelegate = BeamerDelegate(
-          initialPath: '/',
-          locationBuilder: RoutesLocationBuilder(routes: {
-            '/': (p0, p1, p2) {
-              return const MyHomePage(title: 'Flutter Demo Home Page');
-            },
-            '/second': (p0, p1, p2) {
-              return const _SecondScreen();
-            }
-          }),
-        );
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Flutter Demo',
-      routerDelegate: _routerDelegate,
-      routeInformationParser: BeamerParser(),
+      routerConfig: _router,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -60,7 +63,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   void _pushScreen() {
-    Beamer.of(context).beamToNamed('/second');
+    GoRouter.of(context).go('/second');
   }
 
   @override
